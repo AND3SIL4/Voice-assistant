@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:voice_assistant_felipe_silva/feature_box.dart';
+import 'package:voice_assistant_felipe_silva/openai_service.dart';
 import 'package:voice_assistant_felipe_silva/palette.dart';
 
 // stfw --> estate full widget
@@ -15,24 +16,31 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final speechToText = SpeechToText();
   String lastWords = '';
+  final OpenAIService openAIService = OpenAIService();
+
   @override
   void initState() {
     super.initState();
-    initSpeechTotText();
+    initSpeechToText();
   }
 
-  Future<void> initSpeechTotText() async {
+  Future<void> initSpeechToText() async {
     await speechToText.initialize();
     setState(() {});
   }
+
   Future<void> startListening() async {
-    await speechToText.listen(onResult: onSpeechResult);
+    await speechToText.listen(
+      onResult: onSpeechResult,
+    );
     setState(() {});
   }
+
   Future<void> stopListening() async {
     await speechToText.stop();
     setState(() {});
   }
+
   void onSpeechResult(SpeechRecognitionResult result) {
     setState(() {
       lastWords = result.recognizedWords;
@@ -138,11 +146,6 @@ class _HomePageState extends State<HomePage> {
                     headerText: 'Smart Voice Assistant',
                     descriptionText:
                         'Get the best of both worlds with a voice assistant powered by Dall-E and ChatGPT'),
-                FeatureBox(
-                    color: Palette.thirdSuggestionBoxColor,
-                    headerText: 'Smart Voice Assistant',
-                    descriptionText:
-                        'Get the best of both worlds with a voice assistant powered by Dall-E and ChatGPT'),
               ],
             )
           ],
@@ -155,9 +158,11 @@ class _HomePageState extends State<HomePage> {
           if (await speechToText.hasPermission && speechToText.isNotListening) {
             await startListening();
           } else if (speechToText.isListening) {
+            final speech = await openAIService.isArtPrompAPI(lastWords);
+            print(speech);
             await stopListening();
           } else {
-            initSpeechTotText();
+            initSpeechToText();
           }
         },
         child: const Icon(
