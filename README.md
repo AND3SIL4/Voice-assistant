@@ -1,4 +1,4 @@
-# voice_assistant_felipe_silva
+# App voice assistant created by Andres Felipe Silva
 
 Voice assistant using Open AI
 
