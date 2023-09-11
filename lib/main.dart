@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:voice_assistant_felipe_silva/home_page.dart';
+// import 'package:voice_assistant_felipe_silva/home_page.dart';
 import 'package:voice_assistant_felipe_silva/palette.dart';
+import 'package:voice_assistant_felipe_silva/splash_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +19,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.light(useMaterial3: true).copyWith(
           scaffoldBackgroundColor: Palette.whiteColor,
           appBarTheme: const AppBarTheme(backgroundColor: Palette.whiteColor)),
-      home: const HomePage(),
+      // home: const HomePage(),
+      home: const SplashScreen(),
     );
   }
 }
