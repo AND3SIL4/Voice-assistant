@@ -43,7 +43,9 @@ class OpenAIService {
             return res;
         }
       }
-      return 'An internal error ocurred...';
+      var data = jsonDecode(response.body);
+      var algo = data['error']['message'].toString();
+      return algo.toString();
     } catch (e) {
       return e.toString();
     }
